@@ -16330,3 +16330,143 @@ int main()
 
 	save("메인.cpp");
 } 
+
+======================================
+저장한 시간: 2025-06-17 오후 1:37:30 화요일
+======================================
+
+//---------------------------------------------------------------------------
+// 2025 STL 화56목78	 6월 17일 화요일								(15주 1일)
+// 6월 19일 목요일 15주 2일 - 기말시험, E320에서...
+//---------------------------------------------------------------------------
+// iterator 라이브러리에서 제공하는 distance 함수 구현
+// - 반복자 타입에 따라 다른 연산을 할 수 있다.
+// - 적절한 함수를 호출 - function dispatch
+// - 함수를 호출하는 데 꼬리표를 달아 구분 - tag dispatch
+// - C++17 이후에는
+//	 컴파일러가 조건에 맞지 않는 코드를 제거하는 if constexpr을 사용
+// - C++20 부터는
+//   concept을 사용하여 조건을 쉽게 판단할 수 있다.
+// 
+//  관련 내용 - 교과서 참조
+//---------------------------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <list>	
+#include <concepts>
+#include "save.h"
+#include "STRING.h"
+using namespace std;
+
+extern bool 관찰;					// 관찰하려면 true로 설정
+
+template <class Iter>
+iterator_traits<Iter>::difference_type my_distance(Iter b, Iter e) 
+{
+	// 만약 Iter가 random_access_iterator_tag 라면
+	// c++20의 concept을 이용하면 쉽다.
+
+	//  C++17 이후에는 if-constexpt
+	if constexpr (random_access_iterator<Iter>)	// Iter가 랜덤 access야?
+		return e - b;
+	else {
+		typename iterator_traits<Iter>::difference_type d{};
+		while (b != e) {
+			++b;
+			++d;
+		}
+		return d;
+	}
+}
+
+//--------
+int main()
+//--------
+{
+	// 반복자 간의 거리를 재는 distance
+	vector<int> v{ 1,2,3,4,5 };
+	list<int> c{ 1,2,3,4,5 };
+
+	cout << "vector의 distance - " << my_distance(v.end(), v.begin()) << endl;
+	cout << "list의 distance -   " << my_distance(c.end(), c.begin()) << endl;
+
+	save("메인.cpp");
+} 
+
+======================================
+저장한 시간: 2025-06-17 오후 1:54:33 화요일
+======================================
+
+//---------------------------------------------------------------------------
+// 2025 STL 화56목78	 6월 17일 화요일								(15주 1일)
+// 6월 19일 목요일 15주 2일 - 기말시험, E320에서...
+//---------------------------------------------------------------------------
+// ranges - 기존(C++20이전)의 [begin, end) 반복자 쌍을 이용한 범위를 확장
+// 1. [begin, end)
+// 2. [begin, count)
+// 3. [begin, predicate)
+// 4. [begin, ...)
+//---------------------------------------------------------------------------
+
+#include <iostream>
+#include <ranges>
+#include "save.h"
+#include "STRING.h"
+using namespace std;
+
+extern bool 관찰;					// 관찰하려면 true로 설정
+
+
+//--------
+int main()
+//--------
+{
+	for (int num : views::iota(1)			// 무한 범위
+				 | views::take(1000)		// 개수를 갖는 범위
+				 | views::filter([](int n) {return n & 1; })
+				 | views::reverse
+		)
+		cout << num << " ";
+
+	save("메인.cpp");
+} 
+
+======================================
+저장한 시간: 2025-06-17 오후 1:56:59 화요일
+======================================
+
+//---------------------------------------------------------------------------
+// 2025 STL 화56목78	 6월 17일 화요일								(15주 1일)
+// 6월 19일 목요일 15주 2일 - 기말시험, E320에서...
+//---------------------------------------------------------------------------
+// ranges - 기존(C++20이전)의 [begin, end) 반복자 쌍을 이용한 범위를 확장
+// 1. [begin, end)
+// 2. [begin, count)
+// 3. [begin, predicate)
+// 4. [begin, ...)
+//---------------------------------------------------------------------------
+
+#include <iostream>
+#include <ranges>
+#include "save.h"
+#include "STRING.h"
+using namespace std;
+
+extern bool 관찰;					// 관찰하려면 true로 설정
+
+
+//--------
+int main()
+//--------
+{
+	// lazy-evaluation 
+	for (int num : views::iota(1)			// 무한 범위
+				 | views::take(1000)		// 개수를 갖는 범위
+				 | views::filter([](int n) {return n & 1; })
+				 | views::reverse
+		)
+		cout << num << " ";
+
+	save("메인.cpp");
+} 
